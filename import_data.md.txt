@@ -1,0 +1,19 @@
+
+This documents how to import data from the Brazilian Census Enumeration Districts and other auxiliary data into Postgresql/Postgis on a Linux machine. 
+Commands bellow should be run from the termnal/command window
+
+Download shapefiles of setores censitarios in IBGE site */
+```
+ wget --tries=0 -nd -m --read-timeout=60 ftp://geoftp.ibge.gov.br/malhas_digitais/censo_2010/setores_censitarios/
+```
+ 
+Besides EDs this will download some other geographical divisions. We will select only EDs files with te '*_setores_censitarios.zip' pattern in unzip
+```
+ unzip -j '*_setores_censitarios.zip'
+```
+ 
+ /* Import shapefiles in postgre*/ 
+shp2pgsql -s 4674:4326 -I -W LATIN1 -g geom -p 11SEE250GC_SIR  public.setores_censitario_brasil | psql -h sbsb4d -d dados_espaciais 
+for f in *.shp;
+do shp2pgsql -s 4674:4326 -W LATIN1 -g geom -a $f public.setores_censitario_brasil | psql -h sbsb4d -d dados_espaciais;
+done
