@@ -31,6 +31,15 @@ Polygon B should have a hole where polygon A is located. But it does not, the ar
 
 Table 1 describes the relative frequency of these problems. Because of the sheer number of EDs, we need to automate, as much as possible, the correction of these topological problems. On the other hand, we don't want corrections that would introduce larger distortions in the polygons. 
 
+## Possible solutions ##
+At this moment analyzing possible solutions... See [this question](http://gis.stackexchange.com/q/166143/7505) about "Create mosaic like Voronoi Diagram from disjoint polygons", and [this discussion](https://github.com/lucasmation/osm_cnefe_import/issues/4)...
 
+Summarizing, there are two  main approaches:
 
+1. Use  [topological tools](https://docs.qgis.org/2.2/en/docs/gentle_gis_introduction/topology.html#figure-topological-tools) of GIS systems and human-assisted procedures.
 
+2. Transform all polygins in a "disjoint set" of [simple polygons](http://postgis.net/docs/ST_IsSimple.html), by *st_difference(st_intersection)* procedures... It is the starting point for automatic  (non-assisted) solutions:
+
+  2.1. using a *vector algorithm* ([dicussed here](http://gis.stackexchange.com/q/166143/7505)), or
+
+  2.2. using [*raster algorithm*](http://gis.stackexchange.com/q/166143/7505) (loosing some position-precision but good as the CNEFE-error magnitude). 
